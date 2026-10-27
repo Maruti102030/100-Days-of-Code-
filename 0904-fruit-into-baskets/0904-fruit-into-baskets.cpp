@@ -1,26 +1,25 @@
 class Solution {
 public:
-    int totalFruit(std::vector<int>& fruits) {
-        std::unordered_map<int, int> basket;
-        int left = 0;
-        int max_fruits = 0;
+    int totalFruit(vector<int>& fruits) {
         int n = fruits.size();
-
-        for (int right = 0; right < n; ++right) {
-            basket[fruits[right]]++;
-
-            while (basket.size() > 2) {
-                basket[fruits[left]]--;
-                if (basket[fruits[left]] == 0) {
-                    basket.erase(fruits[left]);
+        int low = 0;
+        int high = 0;
+        int res = 0;
+        unordered_map<int, int> f; // fruits ke elements integers hain, char nahi. Isliye unordered_map<int, int> use karna chahiye.
+        for (high =0; high < n; high++){
+            f[fruits[high]]++;
+            while(f.size()>2){
+                f[fruits[low]]--;
+                if(f[fruits[low]]==0){
+                    f.erase(fruits[low]);
                 }
-                left++;
+                low++;
             }
-
-
-            max_fruits = std::max(max_fruits, right - left + 1);
+            if (f.size()<=2){
+                int len = high - low + 1;
+                res = max(res,len);
+            }
         }
-
-        return max_fruits;
+        return res;
     }
 };
